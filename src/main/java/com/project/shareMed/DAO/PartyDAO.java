@@ -10,6 +10,6 @@ import com.project.shareMed.entites.Party;
 public interface PartyDAO extends JpaRepository<Party, Long> {
 	public List<Party> findAllByEmail(String email);
 	public Party findByEmail(String email);
-	
 	public Party findByEmailAndPassword(String email,String password);
+	public Party findById(long partyId);
 }

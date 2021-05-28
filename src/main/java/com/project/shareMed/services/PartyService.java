@@ -11,4 +11,6 @@ public interface PartyService {
 	
 	public Map<String, Object> checkLogin(Party party);
 	
+	public Party getParty(long partyId);
+	
 }

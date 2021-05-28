@@ -10,4 +10,5 @@ public interface ProductService {
 	
 	public List<Product> getProductList();
 	
+	public Product getProduct(long productId);
 }

@@ -40,11 +40,24 @@ public class PartyImpl implements PartyService{
 		
 		if(singlePartyRecord != null) {
 			returnMap.put("isValidUser", true);
+			returnMap.put("partyId", singlePartyRecord.getId());
+			returnMap.put("partyType", singlePartyRecord.getPartyType());
 		}else {
 			returnMap.put("isValidUser", false);
 		}
 		return returnMap;
 
+	}
+
+	@Override
+	public Party getParty(long partyId) {
+		Party p = null;
+		for(Party party : partyDao.findAll()) {
+			if(party.getId() == (int)partyId) {
+				p = party;
+			}
+		}
+		return p;
 	}
 
 }

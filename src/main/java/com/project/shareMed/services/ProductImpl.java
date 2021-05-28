@@ -25,4 +25,15 @@ public class ProductImpl implements ProductService{
 		return productDao.findAll();
 	}
 
+	@Override
+	public Product getProduct(long productId) {
+		Product p = null;
+		for(Product product : productDao.findAll()) {
+			if(product.getProductId() == productId) {
+				p = product;
+			}
+		}
+		return p;
+	}
+
 }
