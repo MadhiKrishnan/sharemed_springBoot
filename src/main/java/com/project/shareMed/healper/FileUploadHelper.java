@@ -2,7 +2,7 @@ package com.project.shareMed.healper;
 
 
 import java.nio.file.Files;
-
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
@@ -39,6 +39,15 @@ public class FileUploadHelper {
 		}
 		
 		return uploaded;
+	}
+	
+	public String uploadPrescription(MultipartFile file) {
+		try {
+			Files.copy(file.getInputStream(), Paths.get(UPLOAD_DIR+"\\prescription\\"+file.getOriginalFilename()),StandardCopyOption.REPLACE_EXISTING);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return UPLOAD_DIR+"\\prescription\\"+file.getOriginalFilename();
 	}
 	
 }

@@ -9,4 +9,5 @@ public interface MedRequestDAO extends JpaRepository<MedRequest, Long>{
 
 	public List<MedRequest> findAllByRequestStatus(String requestStatus);
 	public MedRequest findByMedRequestId(long medRequestIdd);
+	public List<MedRequest> findAllByPartyId(int partyId);
 }	

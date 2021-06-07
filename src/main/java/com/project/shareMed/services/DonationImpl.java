@@ -10,9 +10,13 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import com.project.shareMed.DAO.DonationDao;
+import com.project.shareMed.DAO.InventoryDao;
+import com.project.shareMed.DAO.MedicationDAO;
 import com.project.shareMed.DAO.PartyDAO;
 import com.project.shareMed.DAO.ProductDao;
 import com.project.shareMed.entites.Donation;
+import com.project.shareMed.entites.Inventory;
+import com.project.shareMed.entites.Medication;
 import com.project.shareMed.entites.Party;
 import com.project.shareMed.entites.Product;
 import com.project.shareMed.model.EmailConfig;
@@ -30,8 +34,15 @@ public class DonationImpl implements DonationService {
     ProductDao productDao;
 	
 	@Autowired
+	InventoryDao inventoryDao;
+	
+	@Autowired
+	MedicationDAO medicationDao;
+	
+	@Autowired
 	private JavaMailSender javaMailSender;
 	
+	@Autowired
 	public EmailConfig emailConfig;
 	
 	public DonationImpl(EmailConfig emailConfig) {
@@ -66,9 +77,28 @@ public class DonationImpl implements DonationService {
 		String donationStatus = donation.getDonationStatus();
 		
 		Donation matchedDonation  = donationDao.findByDonationId(donationId);
-		matchedDonation.setDonationStatus(donationStatus);
+		if(!matchedDonation.getDonationStatus().equals("recived")) {
+			matchedDonation.setDonationStatus(donationStatus);
+			donationDao.save(matchedDonation);
+			
+			//update Inventory
+			Medication medication = medicationDao.findBymedicationName(matchedDonation.getMedicationName());
+			
+			Inventory inventory = inventoryDao.findByMedicineId(medication.getMedicationId());
+			
+			if(inventory == null) {
+				Inventory inven = new Inventory(medication.getMedicationId(), matchedDonation.getNumberOfDoses(), matchedDonation.getMedicationName());
+				inventoryDao.save(inven);
+			}else {
+				int currentMedCount = inventory.getReadyToPromise();
+				inventory.setReadyToPromise(currentMedCount+matchedDonation.getNumberOfDoses());
+				inventoryDao.save(inventory);
+			}
+		}else {
+			System.out.println("Already Status Changed");
+		}
+
 		
-		donationDao.save(matchedDonation);
 	}
 
 	@Override

@@ -19,6 +19,7 @@ public class MedRequest {
  	private String requestStatus;
  	private int partyId;
  	private int productId;
+ 	private String prescriptionUrl;
  	
 	public MedRequest() {
 		super();
@@ -27,7 +28,7 @@ public class MedRequest {
 
 	public MedRequest(long medRequestId, String medicationType, String medicationName, int numberOfDoses,
 			String dropAddress1, String dropAddress2, String state, String city, String requestStatus, int partyId,
-			int productId) {
+			int productId,String prescriptionUrl) {
 		super();
 		this.medRequestId = medRequestId;
 		this.medicationType = medicationType;
@@ -40,6 +41,7 @@ public class MedRequest {
 		this.requestStatus = requestStatus;
 		this.partyId = partyId;
 		this.productId = productId;
+		this.prescriptionUrl = prescriptionUrl;
 	}
 
 	public long getMedRequestId() {
@@ -128,6 +130,14 @@ public class MedRequest {
 
 	public void setProductId(int productId) {
 		this.productId = productId;
+	}
+
+	public String getPrescriptionUrl() {
+		return prescriptionUrl;
+	}
+
+	public void setPrescriptionUrl(String prescriptionUrl) {
+		this.prescriptionUrl = prescriptionUrl;
 	}
 
  	
